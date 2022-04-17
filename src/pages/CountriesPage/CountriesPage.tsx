@@ -1,69 +1,74 @@
 import React, { FC, useState } from "react";
 import Countries from "../../components/Countries/Countries";
 import { CountryRowProps } from "../../components/Country/Country";
-import { DATASOURCE } from "../../constants";
-import { useCountriesQuery } from "../../generated/graphql";
 import CountryDetailsPage from "../CountryDetailsPage/CountryDetailsPage";
-import { Box, Theme, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
+import Search from "../../components/Search/Search";
 import "./CountriesPage.css";
+import Filter from "../../components/Filter/Filter";
 
-interface CountriesPageProps {
-  countries?: CountryRowProps[];
-  loading?: boolean;
-}
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
-
-interface QuickSearchToolbarProps {
-  clearSearch: () => void;
-  onChange: () => void;
-  value: string;
-}
+interface CountriesPageProps {}
 
 const CountriesPage: FC<CountriesPageProps> = () => {
-  const [searchParams, setSearchParams] = useState<any>({});
-  const { data, isFetching, isError, fetchStatus } = useCountriesQuery(
-    DATASOURCE,
-    searchParams
-  );
-  // const [searched, setSearched] = useState<string>("");
-  // const [rows, setRows] = useState<CountryRowProps[]>(data?.countries || []);
-  // const classes = useStyles();
+  const [rows, setRows] = useState<CountryRowProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // const requestSearch = (searchedVal: string) => {
-  //   const filteredRows = data?.countries.filter((row) => {
-  //     setSearchParams({
-  //       dataSource: DATASOURCE,
-  //       variables: {
-  //         name: searchedVal,
-  //       },
-  //     });
-  //     return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-  //   });
-  //   setRows(filteredRows || []);
-  // };
-
-  // const cancelSearch = () => {
-  //   setSearched("");
-  //   requestSearch(searched);
-  // };
+  const handleOnComplete = (newRows: CountryRowProps[], type = "search") => {
+    setRows((prevRows) => {
+      if (prevRows.length > 0 && prevRows.length < 0) {
+        const result = prevRows.filter((e) => {
+          return newRows.some((item) => item.code === e.code);
+        });
+        return result;
+      } else {
+        return newRows;
+      }
+    });
+  };
 
   return (
     <>
-      <Box
-        sx={{ pt: 15, height: "100%" }}
-        // sx={{ pt: 20, height: "100%", bgcolor: (theme: Theme) => theme.palette.grey[200] }}
-        // className="CountriesPage"
-        data-testid="CountriesPage"
-      >
-        <Typography sx={{ ml: "15%" }} variant="h4" component="h1" gutterBottom>
-          Countries
-        </Typography>
-        {/* {isFetching && <p>Loading ...</p>} */}
-        {/* {isError && <p>{JSON.stringify(fetchStatus)}</p>} */}
-        <Countries loading={isFetching} countries={data?.countries || []} />
+      <Box sx={{ pt: 15, height: "100%" }} data-testid="CountriesPage">
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid item xs={8}>
+            <Typography
+              sx={{ ml: "10%" }}
+              variant="h4"
+              component="h1"
+              gutterBottom
+            >
+              Countries
+            </Typography>
+            <Search onComplete={handleOnComplete} onLoading={setLoading} />
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="h5" component="h1" gutterBottom>
+              Currencies
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="h5" component="h1" gutterBottom>
+              Continents
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Countries loading={loading} countries={rows} />
+          </Grid>
+          <Grid item xs={2}>
+            <Filter
+              onFilter={handleOnComplete}
+              onLoading={setLoading}
+              type={"currency"}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Filter
+              onFilter={handleOnComplete}
+              onLoading={setLoading}
+              type={"continent"}
+            />
+          </Grid>
+        </Grid>
       </Box>
       <CountryDetailsPage />
     </>

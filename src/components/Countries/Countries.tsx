@@ -2,8 +2,8 @@ import React, { FC } from "react";
 import { CountryRowProps } from "../Country/Country";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import "./Countries.css";
 import { Box } from "@mui/material";
+import "./Countries.css";
 
 interface CountriesProps {
   countries?: CountryRowProps[];
@@ -28,9 +28,12 @@ function getColumns(): GridColDef[] {
 const Countries: FC<CountriesProps> = ({ loading, countries }) => {
   const navigate = useNavigate();
   return (
-    <Box sx={{ width: "70%", margin: "auto", bgcolor: "white" }} >
+    <Box
+      className="Countries"
+      data-testid="Countries"
+      sx={{ width: "70%", margin: "auto", bgcolor: "white" }}
+    >
       <DataGrid
-        data-testid="Countries"
         rows={countries || []}
         columns={getColumns()}
         pageSize={10}

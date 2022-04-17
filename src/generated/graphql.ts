@@ -163,6 +163,20 @@ export type CountryQueryVariables = Exact<{
 
 export type CountryQuery = { __typename?: 'Query', country?: { __typename?: 'Country', code: string, name: string, native: string, phone: string, capital?: string | null, currency?: string | null, emoji: string, emojiU: string, continent: { __typename?: 'Continent', code: string, name: string }, languages: Array<{ __typename?: 'Language', code: string, name?: string | null, rtl: boolean }> } | null };
 
+export type ContinentsQueryVariables = Exact<{
+  filter?: InputMaybe<ContinentFilterInput>;
+}>;
+
+
+export type ContinentsQuery = { __typename?: 'Query', continents: Array<{ __typename?: 'Continent', code: string, name: string, countries?: Array<{ __typename?: 'Country', code: string }> | null }> };
+
+export type LanguageQueryVariables = Exact<{
+  filter?: InputMaybe<LanguageFilterInput>;
+}>;
+
+
+export type LanguageQuery = { __typename?: 'Query', languages: Array<{ __typename?: 'Language', code: string, name?: string | null, native?: string | null, rtl: boolean }> };
+
 
 export const CountriesDocument = `
     query Countries($filter: CountryFilterInput = {}) {
@@ -238,5 +252,52 @@ export const useCountryQuery = <
     useQuery<CountryQuery, TError, TData>(
       ['Country', variables],
       fetcher<CountryQuery, CountryQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CountryDocument, variables),
+      options
+    );
+export const ContinentsDocument = `
+    query Continents($filter: ContinentFilterInput = {}) {
+  continents(filter: $filter) {
+    code
+    name
+    countries {
+      code
+    }
+  }
+}
+    `;
+export const useContinentsQuery = <
+      TData = ContinentsQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: ContinentsQueryVariables,
+      options?: UseQueryOptions<ContinentsQuery, TError, TData>
+    ) =>
+    useQuery<ContinentsQuery, TError, TData>(
+      variables === undefined ? ['Continents'] : ['Continents', variables],
+      fetcher<ContinentsQuery, ContinentsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, ContinentsDocument, variables),
+      options
+    );
+export const LanguageDocument = `
+    query Language($filter: LanguageFilterInput = {}) {
+  languages(filter: $filter) {
+    code
+    name
+    native
+    rtl
+  }
+}
+    `;
+export const useLanguageQuery = <
+      TData = LanguageQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: LanguageQueryVariables,
+      options?: UseQueryOptions<LanguageQuery, TError, TData>
+    ) =>
+    useQuery<LanguageQuery, TError, TData>(
+      variables === undefined ? ['Language'] : ['Language', variables],
+      fetcher<LanguageQuery, LanguageQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, LanguageDocument, variables),
       options
     );

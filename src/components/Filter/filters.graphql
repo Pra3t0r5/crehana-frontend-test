@@ -1,0 +1,17 @@
+query Continents($filter: ContinentFilterInput = {}) {
+  continents(filter: $filter) {
+    code
+    name
+    countries {
+      code
+    }
+  }
+}
+query Language($filter: LanguageFilterInput = {}) {
+  languages(filter: $filter) {
+    code
+    name
+    native
+    rtl
+  }
+}

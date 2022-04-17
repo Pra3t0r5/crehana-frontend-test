@@ -13,3 +13,4 @@ generates:
       - "introspection"    
     config:
       fetcher: 'src/services/fetcher.service.ts#fetchData'
+      exposeQueryKeys: true

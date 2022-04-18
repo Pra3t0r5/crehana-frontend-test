@@ -74,7 +74,6 @@ const CountriesPage: FC<CountriesPageProps> = () => {
           </Grid>
         </Grid>
       </Box>
-      <CountryDetailsPage />
     </>
   );
 };

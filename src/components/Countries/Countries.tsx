@@ -31,7 +31,7 @@ const Countries: FC<CountriesProps> = ({ loading, countries }) => {
     <Box
       className="Countries"
       data-testid="Countries"
-      sx={{ width: "70%", margin: "auto", bgcolor: "white" }}
+      sx={{ width: "95%", margin: "auto", bgcolor: "white" }}
     >
       <DataGrid
         rows={countries || []}

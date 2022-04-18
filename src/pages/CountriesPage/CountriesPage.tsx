@@ -11,11 +11,11 @@ interface CountriesPageProps {}
 
 const CountriesPage: FC<CountriesPageProps> = () => {
   const [rows, setRows] = useState<CountryRowProps[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>();
 
-  const handleOnComplete = (newRows: CountryRowProps[], type = "search") => {
+  const handleOnComplete = (newRows: CountryRowProps[]) => {
     setRows((prevRows) => {
-      if (prevRows.length > 0 && prevRows.length < 0) {
+      if (prevRows.length !== 0) {
         const result = prevRows.filter((e) => {
           return newRows.some((item) => item.code === e.code);
         });
@@ -55,18 +55,22 @@ const CountriesPage: FC<CountriesPageProps> = () => {
             <Countries loading={loading} countries={rows} />
           </Grid>
           <Grid item xs={2}>
-            <Filter
-              onFilter={handleOnComplete}
-              onLoading={setLoading}
-              type={"currency"}
-            />
+            {rows.length && (
+              <Filter
+                onFilter={handleOnComplete}
+                onLoading={setLoading}
+                type={"currency"}
+              />
+            )}
           </Grid>
           <Grid item xs={2}>
-            <Filter
-              onFilter={handleOnComplete}
-              onLoading={setLoading}
-              type={"continent"}
-            />
+            {rows.length && (
+              <Filter
+                onFilter={handleOnComplete}
+                onLoading={setLoading}
+                type={"continent"}
+              />
+            )}
           </Grid>
         </Grid>
       </Box>

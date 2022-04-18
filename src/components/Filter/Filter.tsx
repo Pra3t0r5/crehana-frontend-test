@@ -2,10 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import {
   Box,
   Checkbox,
-  FormControlLabel,
-  IconButton,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
@@ -13,7 +10,6 @@ import "./Filter.css";
 import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
 import { CountryRowProps } from "../Country/Country";
-import { StringifyOptions } from "querystring";
 
 interface FilterProps {
   onFilter: (rows: CountryRowProps[]) => void;
@@ -27,12 +23,7 @@ interface ICheck {
   key: string;
   value: boolean;
 }
-interface FilteredProps {
-  rows: (rows: CountryRowProps[]) => void;
-  type: string;
-}
 
-// 1a creacion de atributos de checkboxes [{"AA":true}]
 const generatedCheckData = (
   countries: any[] = [],
   type: string
@@ -55,10 +46,8 @@ const generatedCheckData = (
     return array.indexOf(value) === index;
   });
   const checkData = {
-    // all: DEFAULT_START,
     values: keys.map((key: string) => ({ key, value: DEFAULT_START })),
   };
-  console.log("generatedCheckData.checkData", checkData);
   return checkData;
 };
 
@@ -76,7 +65,6 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
     generatedCheckData(filterData?.countries || [], type)
   );
 
-  //2 seteo de checkboxdata como mapeo de busqueda
   const requestSearch = () => {
     const searchedArray = [];
     let filter = {};
@@ -113,11 +101,9 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
     }
   };
 
-  //1b actualizacion de atributos de checkboxes
   useEffect(() => {
     if (checkData) {
       requestSearch();
-      console.log("checkData.values", checkData.values);
     }
   }, [JSON.stringify(checkData.values)]);
 
@@ -138,12 +124,6 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
       style={{ maxHeight: 600, overflow: "auto" }}
     >
       <>
-        {/* <FormControlLabel
-          label={type}
-          control={
-            <Checkbox checked={checkData.all} onChange={handleCheckAll} />
-          }
-        />*/}
         {checkData?.values?.map((obj: ICheck) => (
           <>
             <ListItem key={obj.key} disablePadding>

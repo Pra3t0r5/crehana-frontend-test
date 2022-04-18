@@ -7,9 +7,7 @@ describe("<Filter />", () => {
   test("it should mount", () => {
     const setRows = jest.fn();
     const setLoading = jest.fn();
-    // const mock: any[] = [];
     const type: string = "continent";
-
     render(<Filter onFilter={setRows} onLoading={setLoading} type={type} />);
 
     const filter = screen.getByTestId("Filter");

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, Button, IconButton, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import "./Search.css";

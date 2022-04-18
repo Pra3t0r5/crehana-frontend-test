@@ -9,14 +9,14 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LazyCountriesPage />} />
-            <Route path="/country/:code" element={<LazyCountryDetailsPage />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
+    <QueryClientProvider contextSharing={true} client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LazyCountriesPage />} />
+          <Route path="/country/:code" element={<LazyCountryDetailsPage />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

@@ -59,8 +59,6 @@ const Search: FC<SearchProps> = ({ onLoading, onComplete }) => {
       className="Search"
       data-testid="Search"
       sx={{
-        ml: "10%",
-        p: 0.5,
         pb: 0,
       }}
     >

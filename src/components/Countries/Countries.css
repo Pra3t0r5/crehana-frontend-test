@@ -1,3 +1,7 @@
 .Countries {
     height: 100%;
 }
+
+.countries-header {
+    background-color: rgba(55, 65, 81, 0.07);
+}

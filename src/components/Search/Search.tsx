@@ -6,8 +6,9 @@ import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
 import { CountryRowProps } from "../Country/Country";
 import "./Search.css";
+import { SearchProps } from "../../pages/CountriesPage/CountriesPage";
 
-export interface SearchProps {
+export interface SearchBarProps extends SearchProps {
   onLoading: (loading: boolean) => void;
   onComplete: (rows: CountryRowProps[]) => void;
 }
@@ -16,20 +17,21 @@ function escapeRegExp(value: string): string {
   return value.replace(/[^\w_]/g, "");
 }
 
-const Search: FC<SearchProps> = ({ onLoading, onComplete }) => {
+const Search: FC<SearchBarProps> = ({ onSearchParamsChange, searchParams, onLoading, onComplete }) => {
   const [searched, setSearched] = useState<string>("");
-  const [searchParams, setSearchParams] = useState<any>({});
-  const { data, isFetching } = useCountriesQuery(DATASOURCE, searchParams, {
-    queryKey: ["searchParams", searchParams],
-  });
+  const { data, isFetching } = useCountriesQuery(
+    DATASOURCE,
+    searchParams,
+    {
+      queryKey: ["searchParams", JSON.stringify(searchParams)],
+    }
+  );
 
   const requestSearch = (searchedVal: string) => {
-    setSearchParams({
-      dataSource: DATASOURCE,
-      filter: {
-        code: { regex: searchedVal },
-      },
-    });
+    const filter= {
+      code: { regex: searchedVal },
+    };
+    onSearchParamsChange(filter);
     setSearched(searchedVal);
   };
 

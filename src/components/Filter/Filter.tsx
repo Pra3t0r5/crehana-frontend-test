@@ -1,11 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import {
-  Box,
   Checkbox,
   FormControl,
   InputLabel,
-  ListItem,
-  ListItemIcon,
   ListItemText,
   MenuItem,
   OutlinedInput,
@@ -17,23 +14,21 @@ import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
 import { CountryRowProps } from "../Country/Country";
 import { processCheckboxData } from "../../utils/filter.utils";
+import { SearchProps } from "../../pages/CountriesPage/CountriesPage";
 
-interface FilterProps {
+interface FilterProps extends SearchProps {
   onFilter: (rows: CountryRowProps[]) => void;
   onLoading: (loading: boolean) => void;
   type: string;
 }
 
-export interface CheckboxData {
-  values: ICheck[];
-}
-interface ICheck {
-  key: string;
-  value: boolean;
-}
-
-const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
-  const [searchParams, setSearchParams] = useState<any>({});
+const Filter: FC<FilterProps> = ({
+  onSearchParamsChange,
+  searchParams,
+  onFilter,
+  onLoading,
+  type,
+}) => {
   const { data: filterData, isFetching } = useCountriesQuery(
     DATASOURCE,
     searchParams,
@@ -41,7 +36,7 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
       queryKey: ["filterParams" + type, searchParams],
     }
   );
-  const [checkData, setCheckData] = useState<string[]>(
+  const [checkData] = useState<string[]>(
     processCheckboxData(filterData?.countries || [], type)
   );
   const [filterKeys, setFilterKeys] = useState<string[]>([]);
@@ -53,21 +48,14 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
         [type]: { in: filterKeys },
       };
     }
-    console.log(filter);
-    setSearchParams({
-      dataSource: DATASOURCE,
-      filter,
-    });
+    onSearchParamsChange(filter)
   };
 
   const handleChange = (event: SelectChangeEvent<typeof filterKeys>) => {
     const {
       target: { value },
     } = event;
-    setFilterKeys(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setFilterKeys(typeof value === "string" ? value.split(",") : value);
   };
 
   useEffect(() => {
@@ -89,10 +77,8 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
   return (
     <>
       <FormControl sx={{ width: "100%" }}>
-        <InputLabel id="demo-multiple-checkbox-label">{type}</InputLabel>
+        <InputLabel>{type}</InputLabel>
         <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
           multiple
           value={filterKeys}
           onChange={handleChange}
@@ -108,32 +94,6 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
         </Select>
       </FormControl>
     </>
-    // <Box
-    //   className="Filter"
-    //   data-testid="Filter"
-    //   style={{ maxHeight: 600, overflow: "auto" }}
-    // >
-    //   <>
-    //     {checkData?.values?.map((obj: ICheck) => (
-    //       <>
-    //         <ListItem key={obj.key} disablePadding>
-    //           <ListItemIcon>
-    //             <Checkbox
-    //               edge="start"
-    //               checked={obj.value}
-    //               tabIndex={-1}
-    //               disableRipple
-    //               inputProps={{ "aria-labelledby": obj.key }}
-    //               value={obj.key}
-    //               onChange={handleChange}
-    //             />
-    //           </ListItemIcon>
-    //           <ListItemText id={obj.key} primary={obj.key} />
-    //         </ListItem>
-    //       </>
-    //     ))}
-    //   </>
-    // </Box>
   );
 };
 

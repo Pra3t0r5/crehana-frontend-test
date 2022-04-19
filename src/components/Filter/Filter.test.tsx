@@ -8,7 +8,17 @@ describe("<Filter />", () => {
     const setRows = jest.fn();
     const setLoading = jest.fn();
     const type: string = "continent";
-    render(<Filter onFilter={setRows} onLoading={setLoading} type={type} />);
+    const set = jest.fn();
+    const searchParams= {};
+    render(
+      <Filter
+        onFilter={setRows}
+        onLoading={setLoading}
+        type={type}
+        onSearchParamsChange={set}
+        searchParams={searchParams}
+      />
+    );
 
     const filter = screen.getByTestId("Filter");
 

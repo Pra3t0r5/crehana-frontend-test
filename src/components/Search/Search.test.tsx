@@ -7,7 +7,16 @@ describe("<Search />", () => {
   test("it should mount", () => {
     const setRows = jest.fn();
     const setLoading = jest.fn();
-    render(<Search onComplete={setRows} onLoading={setLoading} />);
+    const set = jest.fn();
+    const searchParams= {};
+    render(
+      <Search
+        onComplete={setRows}
+        onLoading={setLoading}
+        onSearchParamsChange={set}
+        searchParams={searchParams}
+      />
+    );
 
     const search = screen.getByTestId("Search");
 

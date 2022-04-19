@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useState } from "react";
-import { Box, Button, IconButton, TextField } from "@mui/material";
+import { FC, useEffect, useState } from "react";
+import { Box, IconButton, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import "./Search.css";
 import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
 import { CountryRowProps } from "../Country/Country";
+import "./Search.css";
 
 export interface SearchProps {
   onLoading: (loading: boolean) => void;

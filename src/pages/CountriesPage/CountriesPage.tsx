@@ -1,11 +1,10 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import Countries from "../../components/Countries/Countries";
 import { CountryRowProps } from "../../components/Country/Country";
-import CountryDetailsPage from "../CountryDetailsPage/CountryDetailsPage";
-import { Box, Grid, Typography } from "@mui/material";
 import Search from "../../components/Search/Search";
-import "./CountriesPage.css";
 import Filter from "../../components/Filter/Filter";
+import "./CountriesPage.css";
 
 interface CountriesPageProps {}
 

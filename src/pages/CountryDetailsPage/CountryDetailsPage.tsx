@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import Country from "../../components/Country/Country";
-import { DATASOURCE } from "../../constants";
 import { useCountryQuery } from "../../generated/graphql";
+import { DATASOURCE } from "../../constants";
 import "./CountryDetailsPage.css";
 
 interface CountryDetailsPageProps {}

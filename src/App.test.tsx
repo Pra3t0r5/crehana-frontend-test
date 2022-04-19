@@ -1,9 +1,26 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
+import { MemoryRouter } from "react-router-dom";
+import LazyCountriesPage from "./pages/CountriesPage/CountriesPage.lazy";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-test('renders learn react link', () => {
+test("Should render", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const rootComponent = screen.getByTestId("App");
+  expect(rootComponent).toBeInTheDocument();
+});
+
+test("Initial route has rendered", () => {
+  const queryClient = new QueryClient();
+
+  render(
+    <MemoryRouter initialEntries={["/"]}>
+      <QueryClientProvider contextSharing={true} client={queryClient}>
+        <LazyCountriesPage />
+      </QueryClientProvider>
+    </MemoryRouter>
+  );
+  const firstRoute = screen.getByTestId("CountriesPage");
+
+  expect(firstRoute).toBeInTheDocument();
 });

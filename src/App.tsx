@@ -1,4 +1,3 @@
-import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import LazyCountriesPage from "./pages/CountriesPage/CountriesPage.lazy";
 import LazyCountryDetailsPage from "./pages/CountryDetailsPage/CountryDetailsPage.lazy";
@@ -9,6 +8,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
+    <div data-testid="App">
     <QueryClientProvider contextSharing={true} client={queryClient}>
       <BrowserRouter>
         <Routes>
@@ -17,6 +17,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Box,
   Checkbox,
@@ -10,46 +10,21 @@ import "./Filter.css";
 import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
 import { CountryRowProps } from "../Country/Country";
+import { processCheckboxData } from "../../utils/filter.utils";
 
 interface FilterProps {
   onFilter: (rows: CountryRowProps[]) => void;
   onLoading: (loading: boolean) => void;
   type: string;
 }
-interface CheckboxData {
+
+export interface CheckboxData {
   values: ICheck[];
 }
 interface ICheck {
   key: string;
   value: boolean;
 }
-
-const generatedCheckData = (
-  countries: any[] = [],
-  type: string
-): CheckboxData => {
-  const DEFAULT_START = false;
-  let keys: string[] = [];
-  for (let country of countries) {
-    let key;
-    if (type === "currency" && !country.currency?.includes(null)) {
-      key = country.currency;
-    } else if (
-      type === "continent" &&
-      !country.continent?.code?.includes(null)
-    ) {
-      key = country.continent.code;
-    }
-    keys.push(key);
-  }
-  keys = keys.filter((value: string, index: number, array: string[]) => {
-    return array.indexOf(value) === index;
-  });
-  const checkData = {
-    values: keys.map((key: string) => ({ key, value: DEFAULT_START })),
-  };
-  return checkData;
-};
 
 const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
   const [searchParams, setSearchParams] = useState<any>({});
@@ -60,9 +35,8 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
       queryKey: ["filterParams" + type, searchParams],
     }
   );
-
   const [checkData, setCheckData] = useState<CheckboxData>(
-    generatedCheckData(filterData?.countries || [], type)
+    processCheckboxData(filterData?.countries || [], type)
   );
 
   const requestSearch = () => {

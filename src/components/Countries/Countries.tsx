@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { CountryRowProps } from "../Country/Country";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import "./Countries.css";
+import { PATH } from "../../constants";
 
 interface CountriesProps {
   countries?: CountryRowProps[];
@@ -27,6 +28,11 @@ function getColumns(): GridColDef[] {
 
 const Countries: FC<CountriesProps> = ({ loading, countries }) => {
   const navigate = useNavigate();
+
+  const handleNavigate = ({ id }: { id: GridRowId }) => {
+    navigate(`${PATH.COUNTRY}/${id}`);
+  };
+
   return (
     <Box
       className="Countries"
@@ -41,7 +47,7 @@ const Countries: FC<CountriesProps> = ({ loading, countries }) => {
         getRowId={(row) => row.code}
         autoHeight
         loading={loading}
-        onRowClick={({ id }) => navigate(`/country/` + id)}
+        onRowClick={handleNavigate}
       />
     </Box>
   );

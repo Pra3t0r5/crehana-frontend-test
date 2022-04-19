@@ -1,23 +1,9 @@
 import { FC, useState } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Countries from "../../components/Countries/Countries";
-import { CountryRowProps } from "../../components/Country/Country";
 import Search from "../../components/Search/Search";
 import Filter from "../../components/Filter/Filter";
-import "./CountriesPage.css";
-import { AnyMxRecord } from "dns";
-
-interface CountriesPageProps {}
-export interface SearchProps {
-  searchParams: {
-    filter?: {
-      [key: string]: {
-        in: string[];
-      };
-    };
-  };
-  onSearchParamsChange: (searchParams: any) => void;
-}
+import { CountriesPageProps, CountryRowProps } from "../../model";
 
 const CountriesPage: FC<CountriesPageProps> = () => {
   const [searchParams, setSearchParams] = useState<any>({});
@@ -43,12 +29,12 @@ const CountriesPage: FC<CountriesPageProps> = () => {
   return (
     <>
       <Grid
-        sx={{ pt: 5, ml: "15%" }}
+        sx={{ pt: 10 }}
         container
         rowSpacing={1}
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
-        <Grid item xs={2}>
+        <Grid item xs={2} md={2}>
           <Typography
             sx={{ ml: "25%" }}
             variant="h4"
@@ -58,7 +44,7 @@ const CountriesPage: FC<CountriesPageProps> = () => {
             Countries
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} md={4}>
           <Search
             searchParams={searchParams}
             onSearchParamsChange={handleSearchChange}
@@ -66,7 +52,7 @@ const CountriesPage: FC<CountriesPageProps> = () => {
             onLoading={setLoading}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={2} md={2}>
           {rows.length && (
             <Filter
               type={"currency"}
@@ -77,7 +63,7 @@ const CountriesPage: FC<CountriesPageProps> = () => {
             />
           )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={2} md={2}>
           {rows.length && (
             <Filter
               type={"continent"}

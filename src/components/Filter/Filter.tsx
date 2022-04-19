@@ -9,18 +9,10 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import "./Filter.css";
 import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
-import { CountryRowProps } from "../Country/Country";
 import { processCheckboxData } from "../../utils/filter.utils";
-import { SearchProps } from "../../pages/CountriesPage/CountriesPage";
-
-interface FilterProps extends SearchProps {
-  onFilter: (rows: CountryRowProps[]) => void;
-  onLoading: (loading: boolean) => void;
-  type: string;
-}
+import { FilterProps } from "../../model";
 
 const Filter: FC<FilterProps> = ({
   onSearchParamsChange,
@@ -48,7 +40,7 @@ const Filter: FC<FilterProps> = ({
         [type]: { in: filterKeys },
       };
     }
-    onSearchParamsChange(filter)
+    onSearchParamsChange(filter);
   };
 
   const handleChange = (event: SelectChangeEvent<typeof filterKeys>) => {
@@ -76,7 +68,7 @@ const Filter: FC<FilterProps> = ({
 
   return (
     <>
-      <FormControl sx={{ width: "100%" }}>
+      <FormControl sx={{ width: "100%" }} data-testid="Filter">
         <InputLabel>{type}</InputLabel>
         <Select
           multiple

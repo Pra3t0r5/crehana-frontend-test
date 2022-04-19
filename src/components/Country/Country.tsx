@@ -17,21 +17,8 @@ import PublicIcon from "@mui/icons-material/Public";
 import LanguageIcon from "@mui/icons-material/Language";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Country as CountryType } from "../../generated/graphql";
-import "./Country.css";
+import { CountryProps } from "../../model";
 
-interface CountryProps {
-  country: CountryType;
-}
-
-export interface CountryRowProps {
-  code: string;
-  name: string;
-  continent: {
-    code: string;
-  };
-  currency?: string | null;
-}
 
 const Country: FC<CountryProps> = ({ country }) => {
   return (

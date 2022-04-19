@@ -20,3 +20,8 @@ export const processCheckboxData = (
     });
     return keys;
 };
+
+
+export function escapeRegExp(value: string): string {
+    return value.replace(/[^\w_]/g, "");
+}

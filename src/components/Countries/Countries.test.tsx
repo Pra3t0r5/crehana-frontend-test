@@ -1,8 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Countries from "./Countries";
-import { CountryRowProps } from "../Country/Country";
+import { CountryRowProps } from "../../model";
 
 describe("<Countries />", () => {
   test("it should mount", () => {

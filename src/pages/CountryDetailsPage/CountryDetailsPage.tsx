@@ -4,9 +4,8 @@ import { useParams } from "react-router-dom";
 import Country from "../../components/Country/Country";
 import { useCountryQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
+import { CountryDetailsPageProps } from "../../model";
 import "./CountryDetailsPage.css";
-
-interface CountryDetailsPageProps {}
 
 const CountryDetailsPage: FC<CountryDetailsPageProps> = () => {
   const { code = " " } = useParams();

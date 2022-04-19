@@ -4,18 +4,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useCountriesQuery } from "../../generated/graphql";
 import { DATASOURCE } from "../../constants";
-import { CountryRowProps } from "../Country/Country";
-import "./Search.css";
-import { SearchProps } from "../../pages/CountriesPage/CountriesPage";
+import { SearchBarProps } from "../../model";
+import { escapeRegExp } from "../../utils/filter.utils";
 
-export interface SearchBarProps extends SearchProps {
-  onLoading: (loading: boolean) => void;
-  onComplete: (rows: CountryRowProps[]) => void;
-}
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[^\w_]/g, "");
-}
 
 const Search: FC<SearchBarProps> = ({ onSearchParamsChange, searchParams, onLoading, onComplete }) => {
   const [searched, setSearched] = useState<string>("");
@@ -61,7 +52,7 @@ const Search: FC<SearchBarProps> = ({ onSearchParamsChange, searchParams, onLoad
       className="Search"
       data-testid="Search"
       sx={{
-        pb: 0,
+        width: "100%"
       }}
     >
       <TextField

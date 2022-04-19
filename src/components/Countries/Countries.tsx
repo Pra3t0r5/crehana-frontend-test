@@ -1,15 +1,10 @@
 import { FC } from "react";
-import { CountryRowProps } from "../Country/Country";
 import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { PATH } from "../../constants";
 import "./Countries.css";
-
-interface CountriesProps {
-  countries?: CountryRowProps[];
-  loading?: boolean;
-}
+import { CountriesProps } from "../../model";
 
 function getColumns(): GridColDef[] {
   return [

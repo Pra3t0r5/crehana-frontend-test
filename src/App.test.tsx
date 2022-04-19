@@ -3,6 +3,7 @@ import App from "./App";
 import { MemoryRouter } from "react-router-dom";
 import LazyCountriesPage from "./pages/CountriesPage/CountriesPage.lazy";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Adapter from "enzyme-adapter-react-16";
 
 test("Should render", () => {
   render(<App />);

@@ -28,7 +28,7 @@ const CountriesPage: FC<CountriesPageProps> = () => {
 
   return (
     <>
-      <Grid
+      <Grid data-testid="CountriesPage"
         sx={{ pt: 10 }}
         container
         rowSpacing={1}

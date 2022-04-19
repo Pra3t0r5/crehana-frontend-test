@@ -2,4 +2,5 @@
     "files.exclude": {
         "**/node_modules": true
     },
+    "jest.jestCommandLine": "yarn test",
 }

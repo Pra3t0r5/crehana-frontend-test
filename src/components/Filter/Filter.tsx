@@ -2,9 +2,15 @@ import { FC, useEffect, useState } from "react";
 import {
   Box,
   Checkbox,
+  FormControl,
+  InputLabel,
   ListItem,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
 } from "@mui/material";
 import "./Filter.css";
 import { useCountriesQuery } from "../../generated/graphql";
@@ -35,89 +41,99 @@ const Filter: FC<FilterProps> = ({ onFilter, onLoading, type }) => {
       queryKey: ["filterParams" + type, searchParams],
     }
   );
-  const [checkData, setCheckData] = useState<CheckboxData>(
+  const [checkData, setCheckData] = useState<string[]>(
     processCheckboxData(filterData?.countries || [], type)
   );
+  const [filterKeys, setFilterKeys] = useState<string[]>([]);
 
   const requestSearch = () => {
-    const searchedArray = [];
     let filter = {};
-    for (let chk of checkData.values) {
-      if (chk.value) {
-        searchedArray.push(chk.key);
-      }
-    }
-    if (searchedArray.length > 0) {
+    if (filterKeys.length > 0) {
       filter = {
-        [type]: { in: searchedArray },
+        [type]: { in: filterKeys },
       };
     }
+    console.log(filter);
     setSearchParams({
       dataSource: DATASOURCE,
       filter,
     });
   };
 
-  const handleChange = (event: any) => {
-    const { checked, value: key } = event.target;
-    const idx = checkData.values.findIndex(
-      (check: ICheck) => check.key === key
+  const handleChange = (event: SelectChangeEvent<typeof filterKeys>) => {
+    const {
+      target: { value },
+    } = event;
+    setFilterKeys(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
     );
-    if (idx !== -1) {
-      setCheckData((prevState: any) => ({
-        ...prevState,
-        values: [
-          ...prevState.values.slice(0, idx),
-          { ...prevState.values[idx], value: checked },
-          ...prevState.values.slice(idx + 1),
-        ],
-      }));
-    }
   };
 
   useEffect(() => {
-    if (checkData) {
+    if (filterKeys) {
       requestSearch();
     }
-  }, [JSON.stringify(checkData.values)]);
+  }, [JSON.stringify(filterKeys)]);
 
   useEffect(() => {
     if (filterData?.countries) {
       onFilter(filterData?.countries || []);
     }
-  }, [filterData?.countries]);
+  }, [JSON.stringify(filterData?.countries)]);
 
   useEffect(() => {
     onLoading(isFetching);
   }, [isFetching]);
 
   return (
-    <Box
-      className="Filter"
-      data-testid="Filter"
-      style={{ maxHeight: 600, overflow: "auto" }}
-    >
-      <>
-        {checkData?.values?.map((obj: ICheck) => (
-          <>
-            <ListItem key={obj.key} disablePadding>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={obj.value}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": obj.key }}
-                  value={obj.key}
-                  onChange={handleChange}
-                />
-              </ListItemIcon>
-              <ListItemText id={obj.key} primary={obj.key} />
-            </ListItem>
-          </>
-        ))}
-      </>
-    </Box>
+    <>
+      <FormControl sx={{ width: "100%" }}>
+        <InputLabel id="demo-multiple-checkbox-label">{type}</InputLabel>
+        <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={filterKeys}
+          onChange={handleChange}
+          input={<OutlinedInput label={type} />}
+          renderValue={(selected) => selected.join(", ")}
+        >
+          {checkData.map((key: string) => (
+            <MenuItem key={key} value={key}>
+              <Checkbox checked={filterKeys.includes(key)} />
+              <ListItemText primary={key} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </>
+    // <Box
+    //   className="Filter"
+    //   data-testid="Filter"
+    //   style={{ maxHeight: 600, overflow: "auto" }}
+    // >
+    //   <>
+    //     {checkData?.values?.map((obj: ICheck) => (
+    //       <>
+    //         <ListItem key={obj.key} disablePadding>
+    //           <ListItemIcon>
+    //             <Checkbox
+    //               edge="start"
+    //               checked={obj.value}
+    //               tabIndex={-1}
+    //               disableRipple
+    //               inputProps={{ "aria-labelledby": obj.key }}
+    //               value={obj.key}
+    //               onChange={handleChange}
+    //             />
+    //           </ListItemIcon>
+    //           <ListItemText id={obj.key} primary={obj.key} />
+    //         </ListItem>
+    //       </>
+    //     ))}
+    //   </>
+    // </Box>
   );
 };
 

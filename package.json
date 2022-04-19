@@ -1,11 +1,15 @@
 {
   "name": "crehana-frontend-test",
+  "author": "Fernando Albertengo",
   "version": "0.1.0",
-  "private": true,
+  "licence": "MIT",
+  "private": false,
   "dependencies": {
-    "@mui/icons-material": "^5.6.1",
-    "@mui/material": "^5.6.1",
-    "@mui/styled-engine-sc": "^5.6.1",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.2",
+    "@mui/styles": "^5.6.2",
     "@mui/x-data-grid": "^5.9.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.1",
@@ -21,7 +25,6 @@
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "react-window": "^1.8.6",
-    "styled-components": "^5.3.5",
     "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },
@@ -59,8 +62,5 @@
     "@graphql-codegen/typescript-react-query": "^3.5.9",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-window": "^1.8.5"
-  },
-  "resolutions": {
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   }
 }

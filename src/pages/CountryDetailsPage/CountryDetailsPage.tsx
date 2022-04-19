@@ -12,7 +12,11 @@ const CountryDetailsPage: FC<CountryDetailsPageProps> = () => {
   const { code = " " } = useParams();
   const { data } = useCountryQuery(DATASOURCE, { code });
   return (
-    <Box sx={{ pt: 15, height: "100%" }}>
+    <Box
+      className="CountryDetailsPage"
+      data-testid="CountryDetailsPage"
+      sx={{ pt: 15, height: "100%" }}
+    >
       {data?.country && <Country country={data?.country} />}
     </Box>
   );

@@ -1,5 +1,17 @@
 import { FC, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Typography,
+} from "@mui/material";
 import Countries from "../../components/Countries/Countries";
 import { CountryRowProps } from "../../components/Country/Country";
 import Search from "../../components/Search/Search";
@@ -27,7 +39,57 @@ const CountriesPage: FC<CountriesPageProps> = () => {
 
   return (
     <>
-      <Box sx={{ pt: 15, height: "100%" }} data-testid="CountriesPage">
+      <Grid
+        sx={{ pt: 5, ml: "15%" }}
+        container
+        rowSpacing={1}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+      >
+        <Grid item xs={2}>
+          <Typography
+            sx={{ ml: "25%" }}
+            variant="h4"
+            component="h1"
+            gutterBottom
+          >
+            Countries
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Search onComplete={handleOnComplete} onLoading={setLoading} />
+        </Grid>
+        <Grid item xs={2}>
+          {rows.length && (
+            <Filter
+              onFilter={handleOnComplete}
+              onLoading={setLoading}
+              type={"currency"}
+            />
+          )}
+        </Grid>
+        <Grid item xs={2}>
+          {" "}
+          {rows.length && (
+            <Filter
+              onFilter={handleOnComplete}
+              onLoading={setLoading}
+              type={"continent"}
+            />
+          )}
+        </Grid>
+      </Grid>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Container maxWidth={false}>
+          <Countries loading={loading} countries={rows} />
+        </Container>
+      </Box>
+      {/* <Box sx={{ pt: 15, height: "100%" }} data-testid="CountriesPage">
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={8}>
             <Typography
@@ -72,7 +134,7 @@ const CountriesPage: FC<CountriesPageProps> = () => {
             )}
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
     </>
   );
 };
